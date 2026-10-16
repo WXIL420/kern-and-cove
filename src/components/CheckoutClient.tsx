@@ -1,17 +1,31 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type FormEvent, type InputHTMLAttributes, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type FormEvent,
+  type InputHTMLAttributes,
+  type ReactNode,
+} from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Info, Loader2, Lock } from "lucide-react";
 import { OrderSummaryLines } from "./OrderSummaryLines";
 import { clearCart, useCart, useHydrated } from "@/lib/cart-store";
-import { EMPTY_FORM, US_STATES, validateCheckout, type CheckoutErrors, type CheckoutForm } from "@/lib/checkout-validation";
+import {
+  EMPTY_FORM,
+  US_STATES,
+  validateCheckout,
+  type CheckoutErrors,
+  type CheckoutForm,
+} from "@/lib/checkout-validation";
 import { formatMoney } from "@/lib/format";
 import { generateOrderNumber, saveOrder } from "@/lib/orders-store";
 import { SHIPPING_METHODS, estimateTax, shippingCost, type ShippingMethodId } from "@/lib/shipping";
 
-export const DEMO_NOTICE = "Portfolio demonstration — no payment will be collected.";
+export const DEMO_NOTICE = "Portfolio demonstration — no payment is collected and no order is submitted.";
 
 interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -24,7 +38,8 @@ interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 function Field({ label, name, error, hint, optional, className = "", ...rest }: FieldProps) {
   const id = useId();
-  const describedBy = [error ? `${id}-err` : null, hint ? `${id}-hint` : null].filter(Boolean).join(" ") || undefined;
+  const describedBy =
+    [error ? `${id}-err` : null, hint ? `${id}-hint` : null].filter(Boolean).join(" ") || undefined;
   return (
     <div className={className}>
       <label htmlFor={id} className="mb-1.5 block text-sm font-semibold">
@@ -149,7 +164,7 @@ export function CheckoutClient() {
     return (
       <div className="wrap py-12" aria-busy="true" aria-label="Loading checkout">
         <div className="skeleton h-14 w-72" />
-        <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_26rem]">
+        <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem]">
           <div className="skeleton h-96" />
           <div className="skeleton h-96" />
         </div>
@@ -162,7 +177,7 @@ export function CheckoutClient() {
       <div className="wrap py-20 text-center">
         <h1 className="display text-5xl">Nothing to check out</h1>
         <p className="mx-auto mt-4 max-w-md leading-7 text-muted">
-          Your cart is empty. Add a piece or two from the collection, then return here to try the demo checkout.
+          Your cart is empty. Add a piece or two from the collection, then return here to check out.
         </p>
         <Link href="/shop" className="btn btn-primary mt-8">
           Browse the collection
@@ -181,13 +196,13 @@ export function CheckoutClient() {
       >
         <Info className="mt-0.5 size-5 shrink-0 text-clay-deep" aria-hidden="true" />
         <p>
-          <strong className="font-semibold">{DEMO_NOTICE}</strong> Nothing you type here is sent anywhere, and
-          no order will be fulfilled.
+          <strong className="font-semibold">{DEMO_NOTICE}</strong> Information you enter stays in this browser
+          and is not transmitted.
         </p>
       </div>
 
-      <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_26rem] lg:gap-16 xl:grid-cols-[1fr_28rem]">
-        <form onSubmit={handleSubmit} noValidate aria-label="Demo checkout form" className="space-y-10">
+      <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_28rem]">
+        <form onSubmit={handleSubmit} noValidate aria-label="Checkout form" className="space-y-10">
           {errorKeys.length > 0 && (
             <div
               ref={summaryRef}
@@ -238,18 +253,55 @@ export function CheckoutClient() {
                 error={errors.phone}
                 optional
                 className="sm:col-span-2"
-                hint="Only used for delivery updates in a real store."
+                hint="Optional. Used only for delivery updates."
               />
             </div>
           </Section>
 
           <Section step={2} title="Shipping address">
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="First name" name="firstName" autoComplete="given-name" value={form.firstName} onChange={(e) => set("firstName", e.target.value)} error={errors.firstName} />
-              <Field label="Last name" name="lastName" autoComplete="family-name" value={form.lastName} onChange={(e) => set("lastName", e.target.value)} error={errors.lastName} />
-              <Field label="Street address" name="address1" autoComplete="address-line1" value={form.address1} onChange={(e) => set("address1", e.target.value)} error={errors.address1} className="sm:col-span-2" />
-              <Field label="Apartment, suite, etc." name="address2" autoComplete="address-line2" value={form.address2} onChange={(e) => set("address2", e.target.value)} optional className="sm:col-span-2" />
-              <Field label="City" name="city" autoComplete="address-level2" value={form.city} onChange={(e) => set("city", e.target.value)} error={errors.city} />
+              <Field
+                label="First name"
+                name="firstName"
+                autoComplete="given-name"
+                value={form.firstName}
+                onChange={(e) => set("firstName", e.target.value)}
+                error={errors.firstName}
+              />
+              <Field
+                label="Last name"
+                name="lastName"
+                autoComplete="family-name"
+                value={form.lastName}
+                onChange={(e) => set("lastName", e.target.value)}
+                error={errors.lastName}
+              />
+              <Field
+                label="Street address"
+                name="address1"
+                autoComplete="address-line1"
+                value={form.address1}
+                onChange={(e) => set("address1", e.target.value)}
+                error={errors.address1}
+                className="sm:col-span-2"
+              />
+              <Field
+                label="Apartment, suite, etc."
+                name="address2"
+                autoComplete="address-line2"
+                value={form.address2}
+                onChange={(e) => set("address2", e.target.value)}
+                optional
+                className="sm:col-span-2"
+              />
+              <Field
+                label="City"
+                name="city"
+                autoComplete="address-level2"
+                value={form.city}
+                onChange={(e) => set("city", e.target.value)}
+                error={errors.city}
+              />
               <div>
                 <label htmlFor="state" className="mb-1.5 block text-sm font-semibold">
                   State
@@ -278,12 +330,27 @@ export function CheckoutClient() {
                   </p>
                 )}
               </div>
-              <Field label="ZIP code" name="postalCode" autoComplete="postal-code" inputMode="numeric" value={form.postalCode} onChange={(e) => set("postalCode", e.target.value)} error={errors.postalCode} />
+              <Field
+                label="ZIP code"
+                name="postalCode"
+                autoComplete="postal-code"
+                inputMode="numeric"
+                value={form.postalCode}
+                onChange={(e) => set("postalCode", e.target.value)}
+                error={errors.postalCode}
+              />
               <div>
                 <label htmlFor="country" className="mb-1.5 block text-sm font-semibold">
                   Country
                 </label>
-                <select id="country" name="country" className="field" value={form.country} onChange={(e) => set("country", e.target.value)} autoComplete="country-name">
+                <select
+                  id="country"
+                  name="country"
+                  className="field"
+                  value={form.country}
+                  onChange={(e) => set("country", e.target.value)}
+                  autoComplete="country-name"
+                >
                   <option>United States</option>
                 </select>
               </div>
@@ -316,7 +383,9 @@ export function CheckoutClient() {
                         <span className="block font-semibold">{m.label}</span>
                         <span className="block text-sm text-muted">{m.eta}</span>
                       </span>
-                      <span className="font-semibold tabular-nums">{cost === 0 ? "Free" : formatMoney(cost)}</span>
+                      <span className="font-semibold tabular-nums">
+                        {cost === 0 ? "Free" : formatMoney(cost)}
+                      </span>
                     </label>
                   );
                 })}
@@ -329,10 +398,10 @@ export function CheckoutClient() {
               <div className="flex items-start gap-3">
                 <Lock className="mt-0.5 size-5 shrink-0 text-muted" aria-hidden="true" />
                 <div>
-                  <p className="font-semibold">Payment is not collected in this demonstration</p>
+                  <p className="font-semibold">Payment is not collected</p>
                   <p className="mt-1 text-sm leading-6 text-muted">
-                    These fields show how a payment form would look. They are intentionally disabled and
-                    cannot receive card details. {DEMO_NOTICE}
+                    These fields show where payment details would go. They are disabled and cannot receive
+                    card details.
                   </p>
                 </div>
               </div>
@@ -354,23 +423,30 @@ export function CheckoutClient() {
           </Section>
 
           <div className="border-t border-stone/70 pt-8">
-            <button type="submit" disabled={submitting} className="btn btn-clay w-full py-4 text-base sm:w-auto sm:min-w-72">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn btn-clay w-full py-4 text-base sm:w-auto sm:min-w-72"
+            >
               {submitting ? (
                 <>
                   <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                  Placing demo order…
+                  Placing order…
                 </>
               ) : (
-                <>Place demo order · {formatMoney(total)}</>
+                <>Place order · {formatMoney(total)}</>
               )}
             </button>
             <p className="mt-4 text-sm text-muted" role="status">
-              {submitting ? "Creating a fictional order number…" : DEMO_NOTICE}
+              {submitting ? "Creating your order number…" : ""}
             </p>
           </div>
         </form>
 
-        <aside aria-labelledby="checkout-summary" className="h-fit border border-stone/70 bg-paper-deep/50 p-6 sm:p-8 lg:sticky lg:top-28">
+        <aside
+          aria-labelledby="checkout-summary"
+          className="h-fit border border-stone/70 bg-paper-deep/50 p-6 sm:p-8 lg:sticky lg:top-28"
+        >
           <h2 id="checkout-summary" className="display text-3xl">
             Order summary
           </h2>
@@ -396,7 +472,7 @@ export function CheckoutClient() {
               <dd className="tabular-nums">{shipping === 0 ? "Free" : formatMoney(shipping)}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-muted">Estimated tax (demo rate)</dt>
+              <dt className="text-muted">Estimated tax (7%)</dt>
               <dd className="tabular-nums">{formatMoney(tax)}</dd>
             </div>
             <div className="flex justify-between border-t border-stone/70 pt-4 text-lg">

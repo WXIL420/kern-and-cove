@@ -1,12 +1,6 @@
 export type Category = "Desk" | "Organization" | "Stationery" | "Carry" | "Bundles";
 
-export const CATEGORIES: Category[] = [
-  "Desk",
-  "Organization",
-  "Stationery",
-  "Carry",
-  "Bundles",
-];
+export const CATEGORIES: Category[] = ["Desk", "Organization", "Stationery", "Carry", "Bundles"];
 
 export type ArtView = "studio" | "tonal" | "detail" | "workspace";
 
@@ -118,7 +112,11 @@ export const products: Product[] = [
       "Oiled oak surface ages gracefully with use",
     ],
     materials: ["Solid white oak top", "Powder-coated steel legs", "Felt-lined feet"],
-    dimensions: ["22 × 8.5 × 4.5 in (56 × 21.5 × 11.5 cm)", "Supports up to 44 lb (20 kg)", "6.2 lb (2.8 kg)"],
+    dimensions: [
+      "22 × 8.5 × 4.5 in (56 × 21.5 × 11.5 cm)",
+      "Supports up to 44 lb (20 kg)",
+      "6.2 lb (2.8 kg)",
+    ],
     colors: [
       { name: "Natural Oak", hex: "#B99A72" },
       { name: "Charcoal", hex: "#2F312F" },

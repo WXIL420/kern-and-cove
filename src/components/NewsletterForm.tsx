@@ -26,10 +26,8 @@ export function NewsletterForm({ tone = "light" }: { tone?: "light" | "dark" }) 
       <div role="status" className="flex items-start gap-3 border border-stone bg-paper-deep p-5 text-ink">
         <Check className="mt-0.5 size-5 shrink-0 text-olive" aria-hidden="true" />
         <div>
-          <p className="font-semibold">Thank you — you are on the demo list.</p>
-          <p className="mt-1 text-sm leading-6 text-muted">
-            This is a portfolio demonstration. Your address was not stored or sent anywhere.
-          </p>
+          <p className="font-semibold">Thank you for signing up.</p>
+          <p className="mt-1 text-sm leading-6 text-muted">Your address was not stored or transmitted.</p>
         </div>
       </div>
     );
@@ -64,7 +62,7 @@ export function NewsletterForm({ tone = "light" }: { tone?: "light" | "dark" }) 
         </p>
       ) : (
         <p id={`${id}-note`} className="mt-3 text-xs text-muted">
-          Demonstration only — signing up does not store or send your address.
+          This form is a demonstration: your address is not stored or transmitted.
         </p>
       )}
     </form>

@@ -26,7 +26,7 @@ const siteUrl =
     : "http://localhost:3000");
 
 const description =
-  "Kern & Cove is a fictional desk-accessory brand: a portfolio e-commerce project. Browse the collection, fill a cart and try a demo checkout. Nothing is for sale.";
+  "Desk mats, laptop stands, trays and notebooks for a calmer workspace. Kern & Cove is a fictional brand: a custom e-commerce portfolio demonstration. Nothing is for sale.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: "Kern & Cove",
-  keywords: ["desk accessories", "workspace organization", "portfolio project", "Next.js e-commerce demo"],
+  keywords: ["desk accessories", "workspace organization", "portfolio project", "e-commerce portfolio"],
   openGraph: {
     type: "website",
     siteName: "Kern & Cove",
@@ -59,7 +59,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} ${serif.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${sans.variable} ${serif.variable}`}>
       <body className="flex min-h-dvh flex-col antialiased">
         <a
           href="#main"

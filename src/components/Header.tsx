@@ -50,7 +50,9 @@ export function Header() {
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
               className={`text-sm font-medium tracking-wide transition-colors hover:text-clay-deep ${
-                isActive(item.href) ? "text-ink underline decoration-clay decoration-2 underline-offset-[10px]" : "text-ink/80"
+                isActive(item.href)
+                  ? "text-ink underline decoration-clay decoration-2 underline-offset-[10px]"
+                  : "text-ink/80"
               }`}
             >
               {item.label}
@@ -88,7 +90,11 @@ export function Header() {
         <div className="flex h-full flex-col overflow-y-auto px-6 pb-8 pt-6">
           <Logo className="mb-10" />
           <nav aria-label="Mobile" className="flex flex-col">
-            <Link href="/shop" onClick={() => setMenuOpen(false)} className="display flex items-center justify-between border-b border-stone/70 py-4 text-3xl">
+            <Link
+              href="/shop"
+              onClick={() => setMenuOpen(false)}
+              className="display flex items-center justify-between border-b border-stone/70 py-4 text-3xl"
+            >
               Shop all <ArrowRight className="size-5" aria-hidden="true" />
             </Link>
             {CATEGORIES.map((c) => (
@@ -104,13 +110,15 @@ export function Header() {
             <Link href="/about" onClick={() => setMenuOpen(false)} className="display mt-6 text-3xl">
               About
             </Link>
-            <Link href="/admin-demo" onClick={() => setMenuOpen(false)} className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-muted">
+            <Link
+              href="/admin-demo"
+              onClick={() => setMenuOpen(false)}
+              className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-muted"
+            >
               Admin demo
             </Link>
           </nav>
-          <p className="mt-auto pt-10 text-xs leading-5 text-muted">
-            Kern &amp; Cove is a fictional brand created for a portfolio project.
-          </p>
+          <span className="mt-auto" />
         </div>
       </Drawer>
     </header>

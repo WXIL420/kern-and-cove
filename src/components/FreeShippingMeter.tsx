@@ -9,7 +9,8 @@ export function FreeShippingMeter({ subtotal }: { subtotal: number }) {
       <p className="text-sm text-ink" aria-live="polite">
         {remaining > 0 ? (
           <>
-            You are <strong className="font-semibold">{formatPrice(remaining)}</strong> away from free shipping.
+            You are <strong className="font-semibold">{formatPrice(remaining)}</strong> away from free
+            shipping.
           </>
         ) : (
           <strong className="font-semibold text-olive">You have unlocked free standard shipping.</strong>

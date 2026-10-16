@@ -1,76 +1,104 @@
 # Kern & Cove
 
-**A quieter way to work.** Kern & Cove is a fictional premium desk-accessory and workspace-organization brand, built as a portfolio e-commerce project.
+A custom e-commerce portfolio demonstration built to showcase product discovery, filtering, merchandising, cart state, checkout UX and merchant-facing administration.
 
-> **This is a portfolio demonstration, not a real store.** No payment is ever collected, no order is fulfilled, the testimonials are fictional, and the admin data is invented. Nothing is sent to a server.
+Kern & Cove is a fictional desk-accessory and workspace-organization brand. **It is not a real store:** nothing is for sale, no payment is collected, no order is submitted or fulfilled, and the admin data is invented. The storefront is built from scratch and does not use a commerce platform, payment provider, database or CMS.
 
-## What is inside
+## Routes
 
-| Route | Purpose |
-| --- | --- |
-| `/` | Homepage: hero, featured products, best sellers, bundle feature, philosophy, fictional testimonials, email signup |
-| `/shop` | Product grid with search, category and in-stock filters, price sorting, active filter chips, mobile filter drawer, empty state. Filters live in the URL (`?category=Desk&stock=1&sort=price-asc&q=felt`) |
-| `/products/[slug]` | Gallery, color and quantity selectors, stock state, benefits, specs, shipping/returns accordion, recommendations, sticky mobile purchase bar |
-| `/cart` | Full cart with quantity controls, free-shipping progress, estimated shipping and tax. A cart drawer is available site-wide |
-| `/checkout` | Demo checkout with validated contact and shipping fields, shipping methods, and a deliberately disabled payment presentation |
-| `/order-confirmation` | Confirmation for a fictional order number (`KC-######`) |
-| `/about` | Brand story, shipping and returns, and notes on how the project is built |
-| `/admin-demo` | Merchant dashboard on fictional data: revenue, order count, AOV, low-stock count, searchable and filterable orders and inventory, mock fulfillment actions |
+| Route                 | What it shows                                                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `/`                   | Hero, featured products, best sellers, bundle feature, brand philosophy, use cases, email signup                                     |
+| `/shop`               | Search, category and in-stock filters, price sorting, active-filter chips, mobile filter drawer, empty state. State lives in the URL |
+| `/products/[slug]`    | Gallery, color and quantity selection, stock state, specs, accordion, recommendations, sticky mobile purchase bar, JSON-LD           |
+| `/cart`               | Quantity controls, free-shipping progress, estimated shipping and tax. A cart drawer is available site-wide                          |
+| `/checkout`           | Validated contact and shipping fields, shipping methods, disabled payment presentation, order summary                                |
+| `/order-confirmation` | Generated order number and summary                                                                                                   |
+| `/about`              | Brand thinking, shipping and returns, how the project is built                                                                       |
+| `/admin-demo`         | Revenue, orders, average order value, low-stock count, searchable and filterable order and inventory tables, mock fulfillment        |
 
-## Stack
+`/shop` accepts `?category=Desk`, `?stock=1`, `?sort=price-asc|price-desc|name` and `?q=felt`, so filtered views can be linked.
 
-- Next.js (App Router) and TypeScript
-- Tailwind CSS v4 with a custom palette (warm off-white `#F4F1EA`, charcoal `#191B19`, deep olive `#39483B`, stone `#C9C2B5`, clay `#B45F43`)
-- Newsreader (headings) and Hanken Grotesk (interface) via `next/font`
+## Technology
+
+- Next.js (App Router), React and TypeScript
+- Tailwind CSS v4 with a custom palette: off-white `#F4F1EA`, charcoal `#191B19`, deep olive `#39483B`, stone `#C9C2B5`, clay `#B45F43`
+- Newsreader (headings) and Hanken Grotesk (interface) through `next/font`
 - Lucide icons
-- Local TypeScript data in `src/lib/products.ts` and `src/lib/admin-data.ts`
-- Cart state in a small external store (`src/lib/cart-store.ts`) read with `useSyncExternalStore` and persisted to `localStorage`
-- Product imagery is original SVG illustration (`src/components/ProductArt.tsx`), so the project has no image licensing or hosting dependencies
-- No Supabase, Stripe, CMS or database
+- ESLint and Prettier
 
-## How the demo behaves
-
-- **Cart** is saved to `localStorage` (`kern-cove-cart-v1`) and survives a refresh. Quantities are capped by inventory (and 10 per line).
-- **Checkout** validates email, name, street address, city, state and ZIP. Payment inputs are disabled and cannot receive card data. On submit, a fictional order is saved to `localStorage` in the same browser (`kern-cove-orders-v1`) and the cart is cleared. Nothing leaves the browser.
-- **Admin demo** merges orders you place in the demo checkout with a set of fictional seed orders. Fulfillment actions and stock adjustments change browser state only and reset on refresh ("Reset demo data" restores the originals).
-- One product (Line Cable Dock) is intentionally sold out, and two are low stock, to exercise those states.
-
-## Run locally
+## Local setup
 
 Requires Node.js 20.9 or newer.
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
+npm run dev          # http://localhost:3000
+npm run format       # Prettier (format:check to verify only)
 npm run lint
+npm run typecheck
 npm run build && npm start
 ```
 
-## Deploy to Vercel
+## Product data
 
-1. Push this repository to GitHub.
-2. In Vercel choose **Add New → Project**, import the repository, and accept the detected Next.js settings. No environment variables are required.
+Catalog data is plain TypeScript in `src/lib/products.ts`. Each `Product` has:
+
+```ts
+{
+  id, slug, name, category, price,
+  shortDescription, longDescription,
+  benefits: [string, string, string],
+  materials: string[], dimensions: string[],
+  colors: { name, hex }[],          // 2–3 variants
+  inventory: number,                // 0 = sold out, 1–8 = low stock
+  featured: boolean, bestSellerRank?: number,
+  includes?: string[],              // bundles only
+  images: { view, alt }[],          // four consistent views per product
+  recommendedIds: string[],
+}
+```
+
+Shipping rules (`src/lib/shipping.ts`) and the seeded admin orders (`src/lib/admin-data.ts`) are also local. Seed order totals are computed with the same shipping and tax functions the checkout uses.
+
+## Cart state
+
+`src/lib/cart-store.ts` is a small external store read with `useSyncExternalStore`:
+
+- State is a list of `{ slug, color, qty }` lines, persisted to `localStorage` (`kern-cove-cart-v1`) and synced across tabs through the `storage` event.
+- The server snapshot is empty, so the first client render matches the server HTML; the real cart appears after hydration (`useHydrated` gates empty states to avoid a flash).
+- Everything read from storage is sanitized: unknown products, sold-out products, non-numeric or negative quantities and unknown variants are dropped or clamped, duplicate lines merge, and quantity is capped by inventory (and 10 per line).
+- Totals, shipping and counts are derived from lines and the catalog, never stored.
+
+Placed demo orders are saved separately in `localStorage` (`kern-cove-orders-v1`) so the confirmation page and admin dashboard can show them.
+
+## Demo limitations
+
+- No payment is collected. The payment fields are disabled and cannot receive card details. No data leaves the browser.
+- Orders exist only in the browser that created them. Admin actions (fulfillment, restocking) change browser state and reset on refresh; they do not affect the storefront.
+- Shipping rates, tax (a flat 7%) and delivery estimates are illustrative.
+- Inventory is static data, not a live stock system.
+
+## Images
+
+There is no photography and no stock imagery. Every product view is an original vector illustration drawn in code (`src/components/ProductArt.tsx`): each product is drawn once, then lit and framed identically (one light direction, shared bevel highlights, material grain, contact shadows and a common floor line), and shown in four consistent views: studio, tonal, detail and workspace. Colour variants recolour the same drawing.
+
+Because the art is SVG it is resolution-independent and ships as markup rather than image files, so there are no WebP or AVIF assets to optimize. Every art container reserves its aspect ratio, which prevents layout shift. AI-generated or photographic renders were not used. If you later want raster renders, keep them under one lighting and framing setup and serve them through `next/image`.
+
+## SEO
+
+Per-page titles, descriptions and canonical URLs; Open Graph and Twitter metadata with generated images (site and per product); favicon (`src/app/icon.svg`); `sitemap.xml` and `robots.txt`; and `Product` JSON-LD on each product page. The structured data states the price and availability and includes a line marking it as a portfolio demonstration product. It contains no ratings or reviews.
+
+## Deployment
+
+1. Push the repository to GitHub.
+2. In Vercel choose **Add New → Project**, import the repository and accept the detected Next.js settings. No environment variables are required.
 3. Deploy.
 
-Or from the command line:
+Or from the CLI: `vercel` (preview) and `vercel --prod` (production).
 
-```bash
-npm i -g vercel
-vercel          # preview
-vercel --prod   # production
-```
+Optionally set `NEXT_PUBLIC_SITE_URL` (for example `https://your-domain.com`) so canonical, sitemap and Open Graph URLs use your domain. On Vercel, `VERCEL_PROJECT_PRODUCTION_URL` is used automatically when it is not set.
 
-Optional: set `NEXT_PUBLIC_SITE_URL` (for example `https://your-domain.com`) so canonical and Open Graph URLs use your custom domain. On Vercel, `VERCEL_PROJECT_PRODUCTION_URL` is used automatically when it is not set.
+## Accessibility
 
-## Project structure
-
-```
-src/
-  app/            Routes, metadata, favicon (icon.svg), Open Graph image, sitemap, robots
-  components/     UI components (header, drawers, product cards, checkout, admin, art)
-  lib/            Product and order data, cart store, validation, shipping rules, formatting
-```
-
-## Accessibility notes
-
-Skip link, labelled form controls with inline errors and an error summary, focus-trapped drawers with Escape to close, `aria-current` navigation, a live region for cart and admin actions, visible focus styles, and reduced-motion support.
+Skip link; labelled form controls with inline errors and an error summary; focus-trapped drawers that return focus and close on Escape; `aria-current` navigation; live regions for cart and admin actions; a visible focus ring; colour choices that show a check mark and name, not colour alone; and reduced-motion support.

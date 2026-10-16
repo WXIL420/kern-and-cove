@@ -39,7 +39,12 @@ export function CartDrawer() {
             </div>
             <ul className="flex-1 divide-y divide-stone/60 overflow-y-auto px-6" aria-label="Cart items">
               {items.map((item) => (
-                <CartLineItem key={`${item.product.slug}-${item.color.name}`} item={item} onNavigate={closeCart} compact />
+                <CartLineItem
+                  key={`${item.product.slug}-${item.color.name}`}
+                  item={item}
+                  onNavigate={closeCart}
+                  compact
+                />
               ))}
             </ul>
             <div className="border-t border-stone/70 bg-paper-deep/60 px-6 py-5">
@@ -55,15 +60,12 @@ export function CartDrawer() {
               </dl>
               <div className="mt-5 grid gap-3">
                 <Link href="/checkout" onClick={closeCart} className="btn btn-primary w-full">
-                  Continue to demo checkout
+                  Checkout
                 </Link>
                 <Link href="/cart" onClick={closeCart} className="btn btn-outline w-full">
                   View full cart
                 </Link>
               </div>
-              <p className="mt-4 text-center text-xs text-muted">
-                Portfolio demonstration — no payment will be collected.
-              </p>
             </div>
           </>
         )}

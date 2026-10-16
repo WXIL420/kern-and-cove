@@ -5,7 +5,7 @@ export function Logo({ className = "" }: { className?: string }) {
     <Link
       href="/"
       aria-label="Kern & Cove — home"
-      className={`display inline-block text-[1.65rem] leading-none tracking-tight ${className}`}
+      className={`display inline-block py-2.5 text-[1.65rem] leading-none tracking-tight ${className}`}
     >
       Kern <span className="italic text-clay-deep">&amp;</span> Cove
     </Link>

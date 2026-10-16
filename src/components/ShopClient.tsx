@@ -64,27 +64,28 @@ export function ShopClient() {
       <fieldset>
         <legend className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Category</legend>
         <div className="mt-4 space-y-1">
-          {[{ label: "All products", value: "", count: products.length }, ...CATEGORIES.map((c) => ({ label: c, value: c as string, count: counts.get(c) ?? 0 }))].map(
-            (opt) => (
-              <label
-                key={opt.label}
-                className="flex min-h-11 cursor-pointer items-center justify-between gap-3 text-[0.95rem] transition-colors hover:text-clay-deep has-[:checked]:font-semibold has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-clay-deep"
-              >
-                <span className="flex items-center gap-3">
-                  <input
-                    type="radio"
-                    name="category"
-                    value={opt.value}
-                    checked={category === opt.value}
-                    onChange={() => update({ category: opt.value })}
-                    className="size-4 accent-olive"
-                  />
-                  {opt.label}
-                </span>
-                <span className="text-xs tabular-nums text-muted">{opt.count}</span>
-              </label>
-            ),
-          )}
+          {[
+            { label: "All products", value: "", count: products.length },
+            ...CATEGORIES.map((c) => ({ label: c, value: c as string, count: counts.get(c) ?? 0 })),
+          ].map((opt) => (
+            <label
+              key={opt.label}
+              className="flex min-h-11 cursor-pointer items-center justify-between gap-3 text-[0.95rem] transition-colors hover:text-clay-deep has-[:checked]:font-semibold has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-clay-deep"
+            >
+              <span className="flex items-center gap-3">
+                <input
+                  type="radio"
+                  name="category"
+                  value={opt.value}
+                  checked={category === opt.value}
+                  onChange={() => update({ category: opt.value })}
+                  className="size-4 accent-olive"
+                />
+                {opt.label}
+              </span>
+              <span className="text-xs tabular-nums text-muted">{opt.count}</span>
+            </label>
+          ))}
         </div>
       </fieldset>
 
@@ -109,12 +110,12 @@ export function ShopClient() {
         <p className="eyebrow">The collection</p>
         <h1 className="display mt-4 text-5xl sm:text-7xl">Shop all</h1>
         <p className="mt-5 leading-7 text-muted">
-          Eight considered pieces for a calmer desk. Filter by category, search by material or color, and
-          sort by price.
+          Eight considered pieces for a calmer desk. Filter by category, search by material or color, and sort
+          by price.
         </p>
       </header>
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[14rem_1fr] lg:gap-16">
+      <div className="mt-12 grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16">
         <aside aria-label="Filters" className="hidden lg:block">
           <div className="sticky top-28">{filterPanel}</div>
         </aside>
@@ -125,7 +126,10 @@ export function ShopClient() {
               <label htmlFor="shop-search" className="sr-only">
                 Search products
               </label>
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" aria-hidden="true" />
+              <Search
+                className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted"
+                aria-hidden="true"
+              />
               <input
                 id="shop-search"
                 type="search"
@@ -179,7 +183,7 @@ export function ShopClient() {
                 key={a.key}
                 type="button"
                 onClick={a.clear}
-                className="inline-flex items-center gap-1.5 border border-stone bg-paper-deep px-3 py-1.5 text-sm transition-colors hover:border-ink"
+                className="inline-flex min-h-11 items-center gap-1.5 border border-stone bg-paper-deep px-3.5 text-sm transition-colors hover:border-ink"
                 aria-label={`Remove filter: ${a.label}`}
               >
                 {a.label}
@@ -190,7 +194,7 @@ export function ShopClient() {
               <button
                 type="button"
                 onClick={clearAll}
-                className="ml-1 px-1 py-1.5 text-sm font-semibold text-clay-deep underline underline-offset-4 hover:text-ink"
+                className="ml-1 inline-flex min-h-11 items-center px-2 text-sm font-semibold text-clay-deep underline underline-offset-4 hover:text-ink"
               >
                 Clear all
               </button>
@@ -225,7 +229,12 @@ export function ShopClient() {
           </div>
           <div className="flex-1 overflow-y-auto px-6 py-6">{filterPanel}</div>
           <div className="grid grid-cols-2 gap-3 border-t border-stone/70 px-6 py-5">
-            <button type="button" onClick={clearAll} className="btn btn-outline" disabled={active.length === 0}>
+            <button
+              type="button"
+              onClick={clearAll}
+              className="btn btn-outline"
+              disabled={active.length === 0}
+            >
               Clear all
             </button>
             <button type="button" onClick={() => setFiltersOpen(false)} className="btn btn-primary">

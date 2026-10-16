@@ -19,7 +19,7 @@ export function CartPageClient() {
     return (
       <div className="wrap py-12 lg:py-16" aria-busy="true" aria-label="Loading your cart">
         <div className="skeleton h-14 w-64" />
-        <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_24rem]">
+        <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_24rem]">
           <div className="space-y-6">
             {[0, 1].map((i) => (
               <div key={i} className="flex gap-5">
@@ -38,7 +38,9 @@ export function CartPageClient() {
   }
 
   if (items.length === 0) {
-    const suggestions = products.filter((p) => p.featured && p.inventory > 0 && p.slug !== "focus-workspace-bundle").slice(0, 3);
+    const suggestions = products
+      .filter((p) => p.featured && p.inventory > 0 && p.slug !== "focus-workspace-bundle")
+      .slice(0, 3);
     return (
       <div className="wrap py-16 lg:py-24">
         <div className="mx-auto flex max-w-xl flex-col items-center text-center">
@@ -69,7 +71,7 @@ export function CartPageClient() {
         </p>
       </div>
 
-      <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_24rem] lg:gap-16 xl:grid-cols-[1fr_26rem]">
+      <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_26rem]">
         <section aria-label="Cart items">
           <ul className="divide-y divide-stone/70 border-y border-stone/70">
             {items.map((item) => (
@@ -90,7 +92,10 @@ export function CartPageClient() {
           </div>
         </section>
 
-        <aside aria-labelledby="summary-heading" className="h-fit border border-stone/70 bg-paper-deep/50 p-6 sm:p-8 lg:sticky lg:top-28">
+        <aside
+          aria-labelledby="summary-heading"
+          className="h-fit border border-stone/70 bg-paper-deep/50 p-6 sm:p-8 lg:sticky lg:top-28"
+        >
           <h2 id="summary-heading" className="display text-3xl">
             Order summary
           </h2>
@@ -116,11 +121,8 @@ export function CartPageClient() {
             </div>
           </dl>
           <Link href="/checkout" className="btn btn-primary mt-7 w-full">
-            Continue to demo checkout
+            Checkout
           </Link>
-          <p className="mt-4 text-center text-xs leading-5 text-muted">
-            Portfolio demonstration — no payment will be collected.
-          </p>
         </aside>
       </div>
     </div>

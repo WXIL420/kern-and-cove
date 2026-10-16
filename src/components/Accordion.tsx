@@ -8,7 +8,13 @@ export interface AccordionItem {
   content: ReactNode;
 }
 
-export function Accordion({ items, defaultOpen = 0 }: { items: AccordionItem[]; defaultOpen?: number | null }) {
+export function Accordion({
+  items,
+  defaultOpen = 0,
+}: {
+  items: AccordionItem[];
+  defaultOpen?: number | null;
+}) {
   const base = useId();
   const [open, setOpen] = useState<number | null>(defaultOpen);
   return (

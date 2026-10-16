@@ -4,7 +4,8 @@ import { ConfirmationClient } from "@/components/ConfirmationClient";
 
 export const metadata: Metadata = {
   title: "Order confirmation",
-  description: "Confirmation for a fictional order placed in the Kern & Cove demo checkout.",
+  description: "Your order number and summary from the Kern & Cove checkout demonstration.",
+  alternates: { canonical: "/order-confirmation" },
   robots: { index: false },
 };
 

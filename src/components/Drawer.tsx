@@ -30,9 +30,11 @@ export function Drawer({ open, onClose, label, side = "right", children, width =
     const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    const raf = requestAnimationFrame(() => {
-      panel?.querySelector<HTMLElement>("[data-autofocus]")?.focus();
-    });
+    // Wait a beat so the panel is visible (its visibility transition has started) before focusing.
+    const focusTimer = window.setTimeout(() => {
+      const target = panel?.querySelector<HTMLElement>("[data-autofocus]");
+      target?.focus();
+    }, 60);
 
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -56,7 +58,7 @@ export function Drawer({ open, onClose, label, side = "right", children, width =
     }
     document.addEventListener("keydown", onKey);
     return () => {
-      cancelAnimationFrame(raf);
+      window.clearTimeout(focusTimer);
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = overflow;
       previouslyFocused?.focus?.();

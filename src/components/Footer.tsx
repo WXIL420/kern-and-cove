@@ -6,28 +6,31 @@ export function Footer() {
   return (
     <footer className="mt-24 bg-ink text-paper on-dark">
       <div className="wrap py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]">
           <div className="max-w-sm">
             <Logo className="text-paper [&_span]:text-stone" />
             <p className="display mt-5 text-2xl italic text-stone">A quieter way to work.</p>
             <p className="mt-6 text-sm leading-6 text-paper/65">
-              Considered desk accessories and workspace organization, designed to make the
-              hours you spend at your desk feel calmer.
+              Considered desk accessories and workspace organization, designed to make the hours you spend at
+              your desk feel calmer.
             </p>
           </div>
 
           <nav aria-label="Shop categories">
             <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-stone">Shop</h2>
-            <ul className="mt-5 space-y-3 text-sm">
+            <ul className="mt-5 space-y-0 text-sm">
               <li>
-                <Link className="text-paper/85 transition-colors hover:text-white hover:underline" href="/shop">
+                <Link
+                  className="inline-flex min-h-11 items-center text-paper/85 transition-colors hover:text-white hover:underline"
+                  href="/shop"
+                >
                   All products
                 </Link>
               </li>
               {CATEGORIES.map((c) => (
                 <li key={c}>
                   <Link
-                    className="text-paper/85 transition-colors hover:text-white hover:underline"
+                    className="inline-flex min-h-11 items-center text-paper/85 transition-colors hover:text-white hover:underline"
                     href={`/shop?category=${c}`}
                   >
                     {c}
@@ -39,19 +42,28 @@ export function Footer() {
 
           <nav aria-label="Company">
             <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-stone">Company</h2>
-            <ul className="mt-5 space-y-3 text-sm">
+            <ul className="mt-5 space-y-0 text-sm">
               <li>
-                <Link className="text-paper/85 transition-colors hover:text-white hover:underline" href="/about">
+                <Link
+                  className="inline-flex min-h-11 items-center text-paper/85 transition-colors hover:text-white hover:underline"
+                  href="/about"
+                >
                   Our approach
                 </Link>
               </li>
               <li>
-                <Link className="text-paper/85 transition-colors hover:text-white hover:underline" href="/about#shipping-returns">
+                <Link
+                  className="inline-flex min-h-11 items-center text-paper/85 transition-colors hover:text-white hover:underline"
+                  href="/about#shipping-returns"
+                >
                   Shipping &amp; returns
                 </Link>
               </li>
               <li>
-                <Link className="text-paper/85 transition-colors hover:text-white hover:underline" href="/about#about-this-project">
+                <Link
+                  className="inline-flex min-h-11 items-center text-paper/85 transition-colors hover:text-white hover:underline"
+                  href="/about#about-this-project"
+                >
                   About this project
                 </Link>
               </li>
@@ -60,20 +72,29 @@ export function Footer() {
 
           <nav aria-label="Portfolio">
             <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-stone">Portfolio</h2>
-            <ul className="mt-5 space-y-3 text-sm">
+            <ul className="mt-5 space-y-0 text-sm">
               <li>
-                <Link className="text-paper/85 transition-colors hover:text-white hover:underline" href="/admin-demo">
+                <Link
+                  className="inline-flex min-h-11 items-center text-paper/85 transition-colors hover:text-white hover:underline"
+                  href="/admin-demo"
+                >
                   Admin demonstration
                 </Link>
               </li>
               <li>
-                <Link className="text-paper/85 transition-colors hover:text-white hover:underline" href="/cart">
+                <Link
+                  className="inline-flex min-h-11 items-center text-paper/85 transition-colors hover:text-white hover:underline"
+                  href="/cart"
+                >
                   Cart
                 </Link>
               </li>
               <li>
-                <Link className="text-paper/85 transition-colors hover:text-white hover:underline" href="/checkout">
-                  Demo checkout
+                <Link
+                  className="inline-flex min-h-11 items-center text-paper/85 transition-colors hover:text-white hover:underline"
+                  href="/checkout"
+                >
+                  Checkout
                 </Link>
               </li>
             </ul>
@@ -81,8 +102,11 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col gap-3 border-t border-paper/15 pt-8 text-xs leading-5 text-paper/60 md:flex-row md:items-center md:justify-between">
-          <p>© 2026 Kern &amp; Cove. A fictional brand for portfolio purposes.</p>
-          <p>Portfolio demonstration — no payment is collected and no order is ever fulfilled.</p>
+          <p>© 2026 Kern &amp; Cove</p>
+          <p className="max-w-xl md:text-right">
+            Portfolio demonstration: Kern &amp; Cove is a fictional brand. Nothing is for sale, no payment is
+            collected and no order is fulfilled.
+          </p>
         </div>
       </div>
     </footer>

@@ -122,9 +122,7 @@ export function setLineQty(slug: string, color: string, qty: number) {
   if (!product) return;
   const limit = maxQty(product);
   const lines = state.lines
-    .map((l) =>
-      l.slug === slug && l.color === color ? { ...l, qty: Math.min(limit, Math.floor(qty)) } : l,
-    )
+    .map((l) => (l.slug === slug && l.color === color ? { ...l, qty: Math.min(limit, Math.floor(qty)) } : l))
     .filter((l) => l.qty > 0);
   commit({ ...state, lines }, true);
 }

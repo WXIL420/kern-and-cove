@@ -40,9 +40,7 @@ export function ProductCard({ product, rank }: Props) {
               {stock === "out" ? "Sold out" : `Only ${product.inventory} left`}
             </span>
           )}
-          {rank && (
-            <span className="display absolute right-4 top-3 text-4xl italic text-ink/50">{rank}</span>
-          )}
+          {rank && <span className="display absolute right-4 top-3 text-4xl italic text-ink/50">{rank}</span>}
         </div>
         <div className="mt-4 flex items-start justify-between gap-4">
           <div className="min-w-0">
@@ -53,16 +51,21 @@ export function ProductCard({ product, rank }: Props) {
           </div>
           <p className="pt-1 text-base font-semibold tabular-nums">{formatPrice(product.price)}</p>
         </div>
-        <ul className="mt-3 flex items-center gap-1.5" aria-label={`Available colors: ${product.colors.map((c) => c.name).join(", ")}`}>
-          {product.colors.map((c) => (
-            <li
-              key={c.name}
-              className="size-3.5 rounded-full border border-ink/20"
-              style={{ background: c.hex }}
-              title={c.name}
-            />
-          ))}
-        </ul>
+        <div className="mt-3 flex items-center gap-2.5">
+          <ul className="flex items-center gap-1.5" aria-hidden="true">
+            {product.colors.map((c) => (
+              <li
+                key={c.name}
+                className="size-3.5 rounded-full border border-ink/20"
+                style={{ background: c.hex }}
+              />
+            ))}
+          </ul>
+          <p className="text-xs text-muted">
+            {product.colors.length} colors
+            <span className="sr-only">: {product.colors.map((c) => c.name).join(", ")}</span>
+          </p>
+        </div>
       </Link>
     </article>
   );

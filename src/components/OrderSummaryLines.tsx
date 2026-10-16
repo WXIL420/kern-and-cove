@@ -16,7 +16,12 @@ export function OrderSummaryLines({ lines }: { lines: SummaryLine[] }) {
       {lines.map((l) => (
         <li key={`${l.slug}-${l.color}`} className="flex items-center gap-4 py-4">
           <div className="relative size-16 shrink-0 overflow-hidden border border-stone/60">
-            <ProductArt slug={l.slug} color={l.colorHex ?? "#2B2D2B"} alt="" className="absolute inset-0 size-full" />
+            <ProductArt
+              slug={l.slug}
+              color={l.colorHex ?? "#2B2D2B"}
+              alt=""
+              className="absolute inset-0 size-full"
+            />
             <span className="absolute -right-0 top-0 grid min-w-5 place-items-center bg-ink px-1 text-[0.65rem] font-bold leading-5 text-paper">
               {l.qty}
             </span>

@@ -3,7 +3,9 @@ import { CartPageClient } from "@/components/CartPageClient";
 
 export const metadata: Metadata = {
   title: "Your cart",
-  description: "Review the items in your Kern & Cove demonstration cart.",
+  description: "Review the pieces in your cart, adjust quantities and see your free-shipping progress.",
+  alternates: { canonical: "/cart" },
+  robots: { index: false },
 };
 
 export default function CartPage() {

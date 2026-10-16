@@ -30,7 +30,14 @@ export function filterProducts(all: Product[], f: ShopFilters): Product[] {
     if (f.category && p.category !== f.category) return false;
     if (f.inStock && p.inventory <= 0) return false;
     if (!q) return true;
-    const haystack = [p.name, p.category, p.shortDescription, p.longDescription, ...p.materials, ...p.colors.map((c) => c.name)]
+    const haystack = [
+      p.name,
+      p.category,
+      p.shortDescription,
+      p.longDescription,
+      ...p.materials,
+      ...p.colors.map((c) => c.name),
+    ]
       .join(" ")
       .toLowerCase();
     return q.split(/\s+/).every((term) => haystack.includes(term));

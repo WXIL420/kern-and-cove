@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function QuantityStepper({ value, min = 1, max, onChange, label, size = "md" }: Props) {
-  const dim = size === "sm" ? "size-9" : "size-12";
+  const dim = size === "sm" ? "size-11" : "size-12";
   return (
     <div
       role="group"

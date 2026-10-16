@@ -12,6 +12,11 @@ import { BUNDLE_SEPARATE_TOTAL, getProductById, products, stockState, type Produ
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
 import { formatPrice } from "@/lib/format";
 
+function luminance(hex: string): number {
+  const n = parseInt(hex.slice(1), 16);
+  return (0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+}
+
 const VIEW_LABELS = ["Studio", "Tonal", "Detail", "In use"];
 
 export function ProductDetail({ product }: { product: Product }) {
@@ -75,7 +80,10 @@ export function ProductDetail({ product }: { product: Product }) {
           </li>
           <li aria-hidden="true">/</li>
           <li>
-            <Link href={`/shop?category=${product.category}`} className="hover:text-clay-deep hover:underline">
+            <Link
+              href={`/shop?category=${product.category}`}
+              className="hover:text-clay-deep hover:underline"
+            >
               {product.category}
             </Link>
           </li>
@@ -86,7 +94,7 @@ export function ProductDetail({ product }: { product: Product }) {
         </ol>
       </nav>
 
-      <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16 xl:gap-24">
+      <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24">
         {/* Gallery */}
         <div className="lg:sticky lg:top-28 lg:self-start">
           <div className="relative aspect-square w-full overflow-hidden border border-stone/60 bg-paper-deep">
@@ -95,7 +103,7 @@ export function ProductDetail({ product }: { product: Product }) {
               slug={product.slug}
               color={color.hex}
               view={image.view}
-              alt={image.alt}
+              alt={`${image.alt}, in ${color.name}`}
               className="fade-up absolute inset-0 size-full [animation-duration:0.4s]"
             />
             <div className="absolute inset-x-0 bottom-0 flex justify-between p-3">
@@ -129,7 +137,13 @@ export function ProductDetail({ product }: { product: Product }) {
                     i === imageIndex ? "border-ink" : "border-stone/60 hover:border-ink/60"
                   }`}
                 >
-                  <ProductArt slug={product.slug} color={color.hex} view={img.view} alt="" className="absolute inset-0 size-full" />
+                  <ProductArt
+                    slug={product.slug}
+                    color={color.hex}
+                    view={img.view}
+                    alt=""
+                    className="absolute inset-0 size-full"
+                  />
                 </button>
               </li>
             ))}
@@ -144,7 +158,8 @@ export function ProductDetail({ product }: { product: Product }) {
             <span className="text-2xl font-semibold tabular-nums">{formatPrice(product.price)}</span>
             {product.slug === "focus-workspace-bundle" && (
               <span className="text-sm text-muted">
-                <span className="line-through">{formatPrice(BUNDLE_SEPARATE_TOTAL)}</span> if bought separately
+                <span className="line-through">{formatPrice(BUNDLE_SEPARATE_TOTAL)}</span> if bought
+                separately
               </span>
             )}
           </p>
@@ -171,7 +186,18 @@ export function ProductDetail({ product }: { product: Product }) {
                         selected ? "border-ink" : "border-transparent hover:border-stone"
                       }`}
                     >
-                      <span className="size-8 rounded-full border border-ink/15" style={{ background: c.hex }} />
+                      <span
+                        className="relative grid size-8 place-items-center rounded-full border border-ink/15"
+                        style={{ background: c.hex }}
+                      >
+                        {selected && (
+                          <Check
+                            className={`size-4 ${luminance(c.hex) > 0.55 ? "text-ink" : "text-white"}`}
+                            strokeWidth={3}
+                            aria-hidden="true"
+                          />
+                        )}
+                      </span>
                     </button>
                   );
                 })}
@@ -203,17 +229,22 @@ export function ProductDetail({ product }: { product: Product }) {
                 disabled={stock === "out"}
                 className="btn btn-primary flex-1"
               >
-                {justAdded ? <Check className="size-4" aria-hidden="true" /> : <ShoppingBag className="size-4" aria-hidden="true" />}
+                {justAdded ? (
+                  <Check className="size-4" aria-hidden="true" />
+                ) : (
+                  <ShoppingBag className="size-4" aria-hidden="true" />
+                )}
                 {addLabel}
-                {!justAdded && stock !== "out" && <span aria-hidden="true">· {formatPrice(product.price * qty)}</span>}
+                {!justAdded && stock !== "out" && (
+                  <span aria-hidden="true">· {formatPrice(product.price * qty)}</span>
+                )}
               </button>
             </div>
             <p className="sr-only" role="status" aria-live="polite">
               {justAdded ? `${qty} ${product.name} added to your cart.` : ""}
             </p>
             <p className="text-sm text-muted">
-              Free standard shipping on orders over {formatPrice(FREE_SHIPPING_THRESHOLD)}. Portfolio demonstration —
-              nothing is for sale.
+              Free standard shipping on orders over {formatPrice(FREE_SHIPPING_THRESHOLD)}.
             </p>
           </div>
 
@@ -242,7 +273,10 @@ export function ProductDetail({ product }: { product: Product }) {
                   return (
                     <li key={name} className="bg-paper">
                       {item ? (
-                        <Link href={`/products/${item.slug}`} className="flex items-center justify-between px-4 py-3.5 text-sm hover:text-clay-deep">
+                        <Link
+                          href={`/products/${item.slug}`}
+                          className="flex items-center justify-between px-4 py-3.5 text-sm hover:text-clay-deep"
+                        >
                           {name}
                           <span className="tabular-nums text-muted">{formatPrice(item.price)}</span>
                         </Link>
@@ -261,11 +295,11 @@ export function ProductDetail({ product }: { product: Product }) {
               Materials &amp; dimensions
             </h2>
             <dl className="mt-4 divide-y divide-stone/70 border-y border-stone/70 text-[0.95rem]">
-              <div className="grid gap-1 py-4 sm:grid-cols-[8rem_1fr] sm:gap-6">
+              <div className="grid gap-1 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
                 <dt className="font-semibold">Materials</dt>
                 <dd className="text-muted">{product.materials.join(" · ")}</dd>
               </div>
-              <div className="grid gap-1 py-4 sm:grid-cols-[8rem_1fr] sm:gap-6">
+              <div className="grid gap-1 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
                 <dt className="font-semibold">Dimensions</dt>
                 <dd>
                   <ul className="space-y-1 text-muted">
@@ -289,9 +323,10 @@ export function ProductDetail({ product }: { product: Product }) {
                   title: "Shipping",
                   content: (
                     <p>
-                      Standard U.S. shipping is $9 and free on orders over {formatPrice(FREE_SHIPPING_THRESHOLD)}, arriving in
-                      5–7 business days. Expedited (2–3 days) and overnight options are available at checkout.
-                      Orders are packed in recyclable, plastic-free packaging.
+                      Standard U.S. shipping is $9 and free on orders over{" "}
+                      {formatPrice(FREE_SHIPPING_THRESHOLD)}, arriving in 5–7 business days. Expedited (2–3
+                      days) and overnight options are available at checkout. Orders are packed in recyclable,
+                      plastic-free packaging.
                     </p>
                   ),
                 },
@@ -301,15 +336,6 @@ export function ProductDetail({ product }: { product: Product }) {
                     <p>
                       Return any unused piece within 30 days for a full refund. We cover the return label on
                       defects, and exchanges for another color are always free.
-                    </p>
-                  ),
-                },
-                {
-                  title: "About this demonstration",
-                  content: (
-                    <p>
-                      Kern &amp; Cove is a fictional brand built for a portfolio. These policies illustrate how a real
-                      store might read — no product ships and no payment is ever taken.
                     </p>
                   ),
                 },
@@ -346,7 +372,12 @@ export function ProductDetail({ product }: { product: Product }) {
               {color.name} · {formatPrice(product.price)}
             </p>
           </div>
-          <button type="button" onClick={handleAdd} disabled={stock === "out"} className="btn btn-primary shrink-0 px-6">
+          <button
+            type="button"
+            onClick={handleAdd}
+            disabled={stock === "out"}
+            className="btn btn-primary shrink-0 px-6"
+          >
             {stock === "out" ? "Sold out" : justAdded ? "Added" : "Add to cart"}
           </button>
         </div>
@@ -354,4 +385,3 @@ export function ProductDetail({ product }: { product: Product }) {
     </div>
   );
 }
-

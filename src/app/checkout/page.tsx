@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { CheckoutClient } from "@/components/CheckoutClient";
 
 export const metadata: Metadata = {
-  title: "Demo checkout",
-  description: "A demonstration checkout for the Kern & Cove portfolio project. No payment is collected.",
+  title: "Checkout",
+  description:
+    "A checkout demonstration with validated contact and shipping fields. No payment is collected and no order is submitted.",
+  alternates: { canonical: "/checkout" },
   robots: { index: false },
 };
 

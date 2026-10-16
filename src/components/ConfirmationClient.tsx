@@ -30,8 +30,8 @@ export function ConfirmationClient() {
       <div className="wrap py-20 text-center">
         <h1 className="display text-5xl">We could not find that order</h1>
         <p className="mx-auto mt-4 max-w-md leading-7 text-muted">
-          Demo orders are only kept in the browser that placed them. If you cleared your browser data or
-          opened this link elsewhere, the order will not be available.
+          Orders are only kept in the browser that placed them. If you cleared your browser data or opened
+          this link elsewhere, the order will not be available.
         </p>
         <Link href="/shop" className="btn btn-primary mt-8">
           Continue shopping
@@ -48,24 +48,28 @@ export function ConfirmationClient() {
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col items-start gap-5">
           <CheckCircle2 className="size-12 text-olive" strokeWidth={1.25} aria-hidden="true" />
-          <p className="eyebrow">Demo order placed</p>
+          <p className="eyebrow">Order confirmation</p>
           <h1 className="display text-5xl sm:text-7xl">Thank you, {a.firstName}.</h1>
           <p className="max-w-2xl text-lg leading-8 text-muted">
-            Your fictional order <strong className="font-semibold text-ink">{order.number}</strong> was created on{" "}
-            {formatDate(order.placedAt)}. A confirmation would be emailed to{" "}
-            <span className="text-ink">{order.email}</span> in a real store.
+            Your order <strong className="font-semibold text-ink">{order.number}</strong> was created on{" "}
+            {formatDate(order.placedAt)} for <span className="text-ink">{order.email}</span>. It is stored
+            only in this browser.
           </p>
         </div>
 
-        <div role="note" className="mt-8 flex items-start gap-3 border border-clay-deep/40 bg-[#f3e4dc] px-4 py-3.5 text-sm">
+        <div
+          role="note"
+          className="mt-8 flex items-start gap-3 border border-clay-deep/40 bg-[#f3e4dc] px-4 py-3.5 text-sm"
+        >
           <Info className="mt-0.5 size-5 shrink-0 text-clay-deep" aria-hidden="true" />
           <p>
-            <strong className="font-semibold">Portfolio demonstration — no payment was collected</strong> and
-            this order will not be fulfilled or shipped. Nothing was sent to a server.
+            <strong className="font-semibold">
+              Portfolio demonstration — no payment is collected and no order is submitted.
+            </strong>
           </p>
         </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
           <section aria-labelledby="items-heading">
             <h2 id="items-heading" className="display text-3xl">
               Your items
@@ -85,7 +89,9 @@ export function ConfirmationClient() {
               </div>
               <div className="flex justify-between">
                 <dt className="text-muted">Shipping ({method?.label})</dt>
-                <dd className="tabular-nums">{order.shipping === 0 ? "Free" : formatMoney(order.shipping)}</dd>
+                <dd className="tabular-nums">
+                  {order.shipping === 0 ? "Free" : formatMoney(order.shipping)}
+                </dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-muted">Estimated tax</dt>
@@ -98,7 +104,10 @@ export function ConfirmationClient() {
             </dl>
           </section>
 
-          <section aria-labelledby="details-heading" className="h-fit border border-stone/70 bg-paper-deep/50 p-6 sm:p-8">
+          <section
+            aria-labelledby="details-heading"
+            className="h-fit border border-stone/70 bg-paper-deep/50 p-6 sm:p-8"
+          >
             <h2 id="details-heading" className="display text-3xl">
               Order details
             </h2>
@@ -133,7 +142,7 @@ export function ConfirmationClient() {
               </div>
               <div>
                 <dt className="font-semibold">Payment</dt>
-                <dd className="text-muted">None collected — portfolio demonstration</dd>
+                <dd className="text-muted">None collected</dd>
               </div>
             </dl>
           </section>
@@ -144,7 +153,7 @@ export function ConfirmationClient() {
             Continue shopping
           </Link>
           <Link href="/admin-demo" className="btn btn-outline">
-            See it in the admin demo
+            View in the admin demonstration
           </Link>
         </div>
       </div>
