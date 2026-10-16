@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Check, ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
 import { Accordion } from "./Accordion";
-import { ProductArt } from "./ProductArt";
+import { ProductImage } from "./ProductImage";
 import { ProductCard } from "./ProductCard";
 import { QuantityStepper } from "./QuantityStepper";
 import { addToCart, maxQty } from "@/lib/cart-store";
@@ -17,7 +17,7 @@ function luminance(hex: string): number {
   return (0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
 }
 
-const VIEW_LABELS = ["Studio", "Tonal", "Detail", "In use"];
+const VIEW_LABELS = ["Three-quarter view", "Side view", "Detail"];
 
 export function ProductDetail({ product }: { product: Product }) {
   const [imageIndex, setImageIndex] = useState(0);
@@ -94,17 +94,19 @@ export function ProductDetail({ product }: { product: Product }) {
         </ol>
       </nav>
 
-      <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24">
+      <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24">
         {/* Gallery */}
         <div className="lg:sticky lg:top-28 lg:self-start">
           <div className="relative aspect-square w-full overflow-hidden border border-stone/60 bg-paper-deep">
-            <ProductArt
+            <ProductImage
               key={`${imageIndex}-${color.name}`}
               slug={product.slug}
-              color={color.hex}
+              colorName={color.name}
               view={image.view}
               alt={`${image.alt}, in ${color.name}`}
-              className="fade-up absolute inset-0 size-full [animation-duration:0.4s]"
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              priority
+              className="fade-up [animation-duration:0.4s]"
             />
             <div className="absolute inset-x-0 bottom-0 flex justify-between p-3">
               <button
@@ -125,7 +127,7 @@ export function ProductDetail({ product }: { product: Product }) {
               </button>
             </div>
           </div>
-          <ul className="mt-3 grid grid-cols-4 gap-3" aria-label="Product images">
+          <ul className="mt-3 grid grid-cols-3 gap-3" aria-label="Product images">
             {product.images.map((img, i) => (
               <li key={img.view}>
                 <button
@@ -137,12 +139,12 @@ export function ProductDetail({ product }: { product: Product }) {
                     i === imageIndex ? "border-ink" : "border-stone/60 hover:border-ink/60"
                   }`}
                 >
-                  <ProductArt
+                  <ProductImage
                     slug={product.slug}
-                    color={color.hex}
+                    colorName={color.name}
                     view={img.view}
                     alt=""
-                    className="absolute inset-0 size-full"
+                    sizes="200px"
                   />
                 </button>
               </li>
@@ -267,7 +269,7 @@ export function ProductDetail({ product }: { product: Product }) {
               <h2 id="includes-heading" className="text-sm font-semibold uppercase tracking-[0.14em]">
                 What is included
               </h2>
-              <ul className="mt-4 grid gap-px border border-stone bg-stone sm:grid-cols-2">
+              <ul className="mt-4 grid grid-cols-1 gap-px border border-stone bg-stone sm:grid-cols-2">
                 {product.includes.map((name) => {
                   const item = products.find((p) => p.name === name);
                   return (
@@ -295,11 +297,11 @@ export function ProductDetail({ product }: { product: Product }) {
               Materials &amp; dimensions
             </h2>
             <dl className="mt-4 divide-y divide-stone/70 border-y border-stone/70 text-[0.95rem]">
-              <div className="grid gap-1 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
+              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
                 <dt className="font-semibold">Materials</dt>
                 <dd className="text-muted">{product.materials.join(" · ")}</dd>
               </div>
-              <div className="grid gap-1 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
+              <div className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
                 <dt className="font-semibold">Dimensions</dt>
                 <dd>
                   <ul className="space-y-1 text-muted">

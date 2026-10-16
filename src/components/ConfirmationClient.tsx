@@ -7,7 +7,6 @@ import { OrderSummaryLines } from "./OrderSummaryLines";
 import { useHydrated } from "@/lib/cart-store";
 import { formatDate, formatMoney } from "@/lib/format";
 import { useLocalOrders } from "@/lib/orders-store";
-import { getProduct } from "@/lib/products";
 import { SHIPPING_METHODS } from "@/lib/shipping";
 
 export function ConfirmationClient() {
@@ -69,18 +68,13 @@ export function ConfirmationClient() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
+        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
           <section aria-labelledby="items-heading">
             <h2 id="items-heading" className="display text-3xl">
               Your items
             </h2>
             <div className="mt-4 border-y border-stone/70">
-              <OrderSummaryLines
-                lines={order.lines.map((l) => ({
-                  ...l,
-                  colorHex: getProduct(l.slug)?.colors.find((c) => c.name === l.color)?.hex,
-                }))}
-              />
+              <OrderSummaryLines lines={order.lines} />
             </div>
             <dl className="mt-5 max-w-sm space-y-3 text-sm sm:ml-auto">
               <div className="flex justify-between">

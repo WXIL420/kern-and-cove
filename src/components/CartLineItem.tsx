@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Trash2 } from "lucide-react";
-import { ProductArt } from "./ProductArt";
+import { ProductImage } from "./ProductImage";
 import { QuantityStepper } from "./QuantityStepper";
 import { maxQty, removeLine, setLineQty, type CartItem } from "@/lib/cart-store";
 import { formatPrice } from "@/lib/format";
@@ -25,7 +25,7 @@ export function CartLineItem({ item, onNavigate, compact = false }: Props) {
         tabIndex={-1}
         aria-hidden="true"
       >
-        <ProductArt slug={product.slug} color={color.hex} alt="" className="size-full" />
+        <ProductImage slug={product.slug} colorName={color.name} alt="" sizes="128px" />
       </Link>
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-start justify-between gap-3">

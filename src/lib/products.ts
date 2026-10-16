@@ -2,7 +2,7 @@ export type Category = "Desk" | "Organization" | "Stationery" | "Carry" | "Bundl
 
 export const CATEGORIES: Category[] = ["Desk", "Organization", "Stationery", "Carry", "Bundles"];
 
-export type ArtView = "studio" | "tonal" | "detail" | "workspace";
+export type ArtView = "studio" | "side" | "detail";
 
 export interface ProductColor {
   name: string;
@@ -35,10 +35,9 @@ export interface Product {
 }
 
 const views = (subject: string): ProductImage[] => [
-  { view: "studio", alt: `${subject} photographed alone on a warm studio backdrop` },
-  { view: "tonal", alt: `${subject} against a deep olive background` },
+  { view: "studio", alt: `${subject} on a warm studio backdrop, three-quarter view` },
+  { view: "side", alt: `${subject} seen from a low side angle` },
   { view: "detail", alt: `Close detail of the ${subject}` },
-  { view: "workspace", alt: `${subject} in a quiet, organized workspace` },
 ];
 
 export const LOW_STOCK_THRESHOLD = 8;

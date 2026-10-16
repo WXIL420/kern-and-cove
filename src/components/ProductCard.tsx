@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ProductArt } from "./ProductArt";
+import { ProductImage } from "./ProductImage";
 import { stockState, type Product } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
 
@@ -9,27 +9,30 @@ interface Props {
   rank?: number;
 }
 
-export function ProductCard({ product, rank }: Props) {
+export function ProductCard({ product, rank, priority = false }: Props) {
   const stock = stockState(product.inventory);
   const first = product.colors[0];
-  const hover = product.images[3];
+  const hover = product.images[2];
   return (
     <article className="group relative">
       <Link href={`/products/${product.slug}`} className="block focus-visible:outline-offset-4">
-        <div className="relative aspect-[4/5] overflow-hidden border border-stone/60 bg-paper-deep">
-          <ProductArt
+        <div className="relative aspect-square overflow-hidden border border-stone/60 bg-paper-deep">
+          <ProductImage
             slug={product.slug}
-            color={first.hex}
+            colorName={first.name}
             view="studio"
-            alt={product.images[0].alt}
-            className="absolute inset-0 size-full transition-opacity duration-500 group-hover:opacity-0 group-focus-within:opacity-0"
+            alt={`${product.images[0].alt}, in ${first.name}`}
+            sizes="(min-width: 1280px) 30vw, (min-width: 520px) 45vw, 92vw"
+            priority={priority}
+            className="transition-opacity duration-500 group-hover:opacity-0 group-focus-within:opacity-0"
           />
-          <ProductArt
+          <ProductImage
             slug={product.slug}
-            color={first.hex}
+            colorName={first.name}
             view={hover.view}
             alt=""
-            className="absolute inset-0 size-full opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-within:opacity-100"
+            sizes="(min-width: 1280px) 30vw, (min-width: 520px) 45vw, 92vw"
+            className="opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-within:opacity-100"
           />
           {stock !== "in" && (
             <span

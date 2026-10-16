@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { HeroScene, ProductArt } from "@/components/ProductArt";
+import Image from "next/image";
+import { ProductImage } from "@/components/ProductImage";
+import { HERO_IMAGE } from "@/lib/images";
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { AddBundleButton } from "@/components/AddBundleButton";
@@ -43,15 +45,15 @@ const useCases = [
     n: "02",
     title: "Lift the screen",
     body: "A raised laptop or monitor supports a clearer viewing position and creates useful space underneath.",
-    slug: "arc-monitor-shelf",
-    view: "workspace" as const,
+    slug: "axis-laptop-stand",
+    view: "side" as const,
   },
   {
     n: "03",
     title: "Give small objects a home",
     body: "A dedicated tray and cable dock keep the items used repeatedly from drifting across the desk.",
     slug: "cove-valet-tray",
-    view: "tonal" as const,
+    view: "detail" as const,
   },
 ];
 
@@ -67,7 +69,7 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <section aria-labelledby="hero-heading" className="border-b border-stone/70">
-        <div className="wrap grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-stretch lg:gap-16 lg:py-0">
+        <div className="wrap grid grid-cols-1 gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-stretch lg:gap-16 lg:py-0">
           <div className="fade-up flex flex-col justify-center lg:py-24">
             <p className="eyebrow">Desk accessories &amp; workspace organization</p>
             <h1 id="hero-heading" className="display mt-6 text-[3.4rem] sm:text-7xl xl:text-[6.5rem]">
@@ -87,7 +89,14 @@ export default function HomePage() {
             </div>
           </div>
           <div className="fade-up relative aspect-[5/6] w-full overflow-hidden border-x border-stone/50 [animation-delay:120ms] lg:aspect-auto lg:min-h-[44rem]">
-            <HeroScene className="absolute inset-0 size-full" />
+            <Image
+              src={HERO_IMAGE.src}
+              alt="A calm desk: a laptop raised on an aluminum stand over a green felt desk mat, with a valet tray, notebooks, a mug and an oak shelf with books and a plant"
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
@@ -126,7 +135,7 @@ export default function HomePage() {
         </div>
         <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-14 min-[520px]:grid-cols-2 lg:grid-cols-4">
           {featured.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard key={p.id} product={p} priority />
           ))}
         </div>
       </section>
@@ -150,15 +159,16 @@ export default function HomePage() {
           <div>
             <Link
               href={`/products/${lead.slug}`}
-              className="group grid gap-6 border border-stone/70 bg-paper-deep/50 p-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] sm:items-center sm:p-6"
+              className="group grid grid-cols-1 gap-6 border border-stone/70 bg-paper-deep/50 p-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] sm:items-center sm:p-6"
             >
               <div className="relative aspect-[5/4] overflow-hidden">
-                <ProductArt
+                <ProductImage
                   slug={lead.slug}
-                  color={lead.colors[0].hex}
-                  view="workspace"
-                  alt={lead.images[3].alt}
-                  className="absolute inset-0 size-full"
+                  colorName={lead.colors[0].name}
+                  view="side"
+                  alt={`${lead.images[1].alt}, in ${lead.colors[0].name}`}
+                  sizes="(min-width: 1024px) 28vw, 90vw"
+                  className="object-[50%_58%]"
                 />
               </div>
               <div className="sm:pr-4">
@@ -184,12 +194,7 @@ export default function HomePage() {
                       {p.bestSellerRank}
                     </span>
                     <span className="relative size-20 shrink-0 overflow-hidden border border-stone/60 sm:size-24">
-                      <ProductArt
-                        slug={p.slug}
-                        color={p.colors[0].hex}
-                        alt=""
-                        className="absolute inset-0 size-full"
-                      />
+                      <ProductImage slug={p.slug} colorName={p.colors[0].name} alt="" sizes="100px" />
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="display block text-2xl leading-tight group-hover:text-clay-deep">
@@ -208,14 +213,14 @@ export default function HomePage() {
 
       {/* Focus Workspace Bundle */}
       <section aria-labelledby="bundle-heading" className="mt-24 bg-olive text-paper on-dark lg:mt-32">
-        <div className="wrap grid gap-12 py-16 lg:grid-cols-2 lg:items-center lg:gap-20 lg:py-24">
-          <div className="relative aspect-square w-full overflow-hidden lg:order-2">
-            <ProductArt
+        <div className="wrap grid grid-cols-1 gap-12 py-16 lg:grid-cols-2 lg:items-center lg:gap-20 lg:py-24">
+          <div className="relative aspect-square w-full overflow-hidden border border-paper/20 lg:order-2">
+            <ProductImage
               slug={bundle.slug}
-              color={bundle.colors[1].hex}
-              view="tonal"
-              alt={bundle.images[1].alt}
-              className="absolute inset-0 size-full"
+              colorName={bundle.colors[1].name}
+              view="studio"
+              alt={`${bundle.images[0].alt}, in ${bundle.colors[1].name}`}
+              sizes="(min-width: 1024px) 45vw, 100vw"
             />
           </div>
           <div className="lg:order-1">
@@ -259,7 +264,7 @@ export default function HomePage() {
             Work is loud enough. <span className="italic text-olive">Your desk does not have to be.</span>
           </h2>
         </div>
-        <div className="mt-16 grid gap-px border-y border-stone/70 bg-stone/70 md:grid-cols-3">
+        <div className="mt-16 grid grid-cols-1 gap-px border-y border-stone/70 bg-stone/70 md:grid-cols-3">
           {principles.map((p) => (
             <div key={p.n} className="bg-paper px-0 py-8 md:px-8 md:py-10 md:first:pl-0 md:last:pr-0">
               <p className="display text-3xl italic text-clay-deep">{p.n}</p>
@@ -292,12 +297,13 @@ export default function HomePage() {
             return (
               <article key={u.n}>
                 <div className="relative aspect-[4/3] overflow-hidden border border-stone/60">
-                  <ProductArt
+                  <ProductImage
                     slug={u.slug}
-                    color={product.colors[0].hex}
+                    colorName={product.colors[0].name}
                     view={u.view}
                     alt={`${product.name} shown as an example for “${u.title}”`}
-                    className="absolute inset-0 size-full"
+                    sizes="(min-width: 768px) 30vw, 92vw"
+                    className="object-[50%_58%]"
                   />
                 </div>
                 <p className="display mt-6 text-2xl italic text-clay-deep">{u.n}</p>
@@ -317,7 +323,7 @@ export default function HomePage() {
 
       {/* Email signup */}
       <section aria-labelledby="signup-heading" className="wrap pt-24 lg:pt-32">
-        <div className="grid gap-10 border border-stone/70 bg-paper-deep/60 p-8 sm:p-12 lg:grid-cols-2 lg:items-center lg:gap-20 lg:p-16">
+        <div className="grid grid-cols-1 gap-10 border border-stone/70 bg-paper-deep/60 p-8 sm:p-12 lg:grid-cols-2 lg:items-center lg:gap-20 lg:p-16">
           <div>
             <p className="eyebrow">The quiet letter</p>
             <h2 id="signup-heading" className="display mt-4 text-4xl sm:text-5xl">

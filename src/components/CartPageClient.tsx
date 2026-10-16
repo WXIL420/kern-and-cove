@@ -19,7 +19,7 @@ export function CartPageClient() {
     return (
       <div className="wrap py-12 lg:py-16" aria-busy="true" aria-label="Loading your cart">
         <div className="skeleton h-14 w-64" />
-        <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_24rem]">
+        <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_24rem]">
           <div className="space-y-6">
             {[0, 1].map((i) => (
               <div key={i} className="flex gap-5">
@@ -71,7 +71,7 @@ export function CartPageClient() {
         </p>
       </div>
 
-      <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_26rem]">
+      <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_26rem]">
         <section aria-label="Cart items">
           <ul className="divide-y divide-stone/70 border-y border-stone/70">
             {items.map((item) => (

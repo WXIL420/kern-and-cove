@@ -160,7 +160,7 @@ export function AdminDashboard() {
         </p>
       )}
 
-      <dl className="mt-10 grid gap-px border border-stone/70 bg-stone/70 sm:grid-cols-2 lg:grid-cols-4">
+      <dl className="mt-10 grid grid-cols-1 gap-px border border-stone/70 bg-stone/70 sm:grid-cols-2 lg:grid-cols-4">
         <Stat
           label="Revenue"
           value={formatPrice(Math.round(revenue))}

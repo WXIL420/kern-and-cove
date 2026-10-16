@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { ProductArt } from "@/components/ProductArt";
+import { ProductImage } from "@/components/ProductImage";
 import { Accordion } from "@/components/Accordion";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
 import { formatPrice } from "@/lib/format";
@@ -33,7 +33,7 @@ const stack = [
   "Tailwind CSS v4 and Lucide icons",
   "Local TypeScript product and order data",
   "Cart state in a small external store, persisted to localStorage",
-  "Original SVG product illustrations, no stock photography",
+  "Product images rendered in code with Three.js, no stock photography",
   "No payment provider, database or CMS — by design",
 ];
 
@@ -45,14 +45,13 @@ export default function AboutPage() {
         <h1 id="about-heading" className="display mt-5 max-w-5xl text-5xl sm:text-7xl lg:text-8xl">
           We make the desk <span className="italic text-olive">disappear</span>, so the work can show up.
         </h1>
-        <div className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-20">
-          <div className="relative aspect-[4/3] overflow-hidden border border-stone/60">
-            <ProductArt
+        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-20">
+          <div className="relative aspect-[5/4] overflow-hidden border border-stone/60">
+            <ProductImage
               slug="axis-laptop-stand"
-              color="#BDBBB4"
-              view="workspace"
-              alt="An aluminum laptop stand on a warm oak desk beside a mug and a small plant"
-              className="absolute inset-0 size-full"
+              colorName="Raw Aluminum"
+              alt="The Axis Laptop Stand in raw aluminum holding an open laptop at a raised angle"
+              sizes="(min-width: 1024px) 55vw, 100vw"
             />
           </div>
           <div className="space-y-6 text-lg leading-8 text-muted lg:pt-4">
@@ -78,7 +77,7 @@ export default function AboutPage() {
         <h2 id="values-heading" className="display text-4xl sm:text-5xl">
           What we believe
         </h2>
-        <div className="mt-10 grid gap-px border-y border-stone/70 bg-stone/70 md:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-px border-y border-stone/70 bg-stone/70 md:grid-cols-3">
           {values.map(([title, body], i) => (
             <div key={title} className="bg-paper py-8 md:px-8 md:first:pl-0 md:last:pr-0">
               <p className="display text-3xl italic text-clay-deep">0{i + 1}</p>
@@ -94,7 +93,7 @@ export default function AboutPage() {
         className="wrap scroll-mt-28 pt-24 lg:pt-32"
         aria-labelledby="ship-heading"
       >
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
           <div>
             <p className="eyebrow">Policies</p>
             <h2 id="ship-heading" className="display mt-4 text-4xl sm:text-5xl">
@@ -145,7 +144,7 @@ export default function AboutPage() {
         className="mt-24 scroll-mt-20 bg-olive text-paper on-dark lg:mt-32"
         aria-labelledby="project-heading"
       >
-        <div className="wrap grid gap-10 py-16 lg:grid-cols-2 lg:gap-20 lg:py-24">
+        <div className="wrap grid grid-cols-1 gap-10 py-16 lg:grid-cols-2 lg:gap-20 lg:py-24">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone">About this project</p>
             <h2 id="project-heading" className="display mt-4 text-4xl sm:text-5xl">

@@ -164,7 +164,7 @@ export function CheckoutClient() {
     return (
       <div className="wrap py-12" aria-busy="true" aria-label="Loading checkout">
         <div className="skeleton h-14 w-72" />
-        <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem]">
+        <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_26rem]">
           <div className="skeleton h-96" />
           <div className="skeleton h-96" />
         </div>
@@ -201,7 +201,7 @@ export function CheckoutClient() {
         </p>
       </div>
 
-      <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_28rem]">
+      <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_28rem]">
         <form onSubmit={handleSubmit} noValidate aria-label="Checkout form" className="space-y-10">
           {errorKeys.length > 0 && (
             <div
@@ -230,7 +230,7 @@ export function CheckoutClient() {
           )}
 
           <Section step={1} title="Contact information">
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field
                 label="Email"
                 name="email"
@@ -259,7 +259,7 @@ export function CheckoutClient() {
           </Section>
 
           <Section step={2} title="Shipping address">
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field
                 label="First name"
                 name="firstName"
@@ -405,7 +405,7 @@ export function CheckoutClient() {
                   </p>
                 </div>
               </div>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2" aria-hidden="true">
+              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2" aria-hidden="true">
                 <div className="sm:col-span-2">
                   <label className="mb-1.5 block text-sm font-semibold text-muted">Card number</label>
                   <input className="field" disabled tabIndex={-1} placeholder="Card entry disabled" />
@@ -456,7 +456,6 @@ export function CheckoutClient() {
                 slug: i.product.slug,
                 name: i.product.name,
                 color: i.color.name,
-                colorHex: i.color.hex,
                 qty: i.qty,
                 price: i.product.price,
               }))}

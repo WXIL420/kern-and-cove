@@ -115,7 +115,7 @@ export function ShopClient() {
         </p>
       </header>
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16">
+      <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16">
         <aside aria-label="Filters" className="hidden lg:block">
           <div className="sticky top-28">{filterPanel}</div>
         </aside>

@@ -23,6 +23,7 @@ Kern & Cove is a fictional desk-accessory and workspace-organization brand. **It
 
 - Next.js (App Router), React and TypeScript
 - Tailwind CSS v4 with a custom palette: off-white `#F4F1EA`, charcoal `#191B19`, deep olive `#39483B`, stone `#C9C2B5`, clay `#B45F43`
+- Three.js, Playwright and Sharp (offline image rendering only; none are shipped to the browser)
 - Newsreader (headings) and Hanken Grotesk (interface) through `next/font`
 - Lucide icons
 - ESLint and Prettier
@@ -54,7 +55,7 @@ Catalog data is plain TypeScript in `src/lib/products.ts`. Each `Product` has:
   inventory: number,                // 0 = sold out, 1–8 = low stock
   featured: boolean, bestSellerRank?: number,
   includes?: string[],              // bundles only
-  images: { view, alt }[],          // four consistent views per product
+  images: { view, alt }[],          // three views: studio, side, detail
   recommendedIds: string[],
 }
 ```
@@ -81,9 +82,21 @@ Placed demo orders are saved separately in `localStorage` (`kern-cove-orders-v1`
 
 ## Images
 
-There is no photography and no stock imagery. Every product view is an original vector illustration drawn in code (`src/components/ProductArt.tsx`): each product is drawn once, then lit and framed identically (one light direction, shared bevel highlights, material grain, contact shadows and a common floor line), and shown in four consistent views: studio, tonal, detail and workspace. Colour variants recolour the same drawing.
+There is no photography and no stock imagery. Every product image is a 3D render produced from code in this repository:
 
-Because the art is SVG it is resolution-independent and ships as markup rather than image files, so there are no WebP or AVIF assets to optimize. Every art container reserves its aspect ratio, which prevents layout shift. AI-generated or photographic renders were not used. If you later want raster renders, keep them under one lighting and framing setup and serve them through `next/image`.
+- `scripts/render/scene.js` is a small Three.js studio. It models each product (felt, oak, anodized aluminum, mineral composite, waxed canvas and linen) with procedural textures, physically based materials, a soft key light, a rim light and an environment map, and renders it on a seamless warm backdrop with soft contact shadows.
+- `scripts/render-products.mjs` drives it with headless Chromium (Playwright), renders three views of every colourway (three-quarter, low side angle and a close detail) plus the homepage desk scene, and writes WebP files with Sharp.
+- Output lives in `public/products/<slug>/<colour>-<view>.webp` and `public/images/hero-desk.webp`. Next.js then serves AVIF or WebP at the right size through `next/image`, and every image container reserves its aspect ratio, so there is no layout shift.
+
+To regenerate:
+
+```bash
+npm run render:images                                   # all products and views (~15 minutes)
+node scripts/render-products.mjs --only ridge-desk-mat   # one product
+node scripts/render-products.mjs --size 700 --out /tmp/preview   # quick low-res preview
+```
+
+The renders are CGI, not photographs, and the catalogue is not real merchandise. Image models or photography were not used.
 
 ## SEO
 
